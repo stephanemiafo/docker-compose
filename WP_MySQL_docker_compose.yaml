@@ -1,0 +1,65 @@
+# version: "3.9" (DEPRECATED)
+services:
+  mysqldb:  # CONTAINER'S NAME
+    image: mysql:5.7
+    restart: always
+    # ports:
+    #   - "3306:3306"  # Always put them in quotes
+    environment:
+      MYSQL_ROOT_PASSWORD: camesi
+      MYSQL_PASSWORD: masaraki
+      MYSQL_USER: Romeo   
+      MYSQL_DATABASE: wpanddb
+    volumes:                                                              # NOT TO BE USE IN PRODUCTION
+      - mysqldb:/var/lib/mysql                   
+
+  wordpress_site:       # CONTAINER'S NAME
+    image: wordpress
+    restart: always
+    ports:
+      - "8081:80"            # Always put them in quotes
+    volumes:
+      - wordpress_site:/var/www/html
+    environment:
+      WORDPRESS_DB_PASSWORD: masaraki
+      WORDPRESS_DB_USER: Romeo
+      WORDPRESS_DB_NAME: wpanddb          
+      WORDPRESS_DB_HOST: mysqldb
+    depends_on:
+      - mysqldb
+volumes:
+  mysqldb:
+  wordpress_site:
+
+#---
+# version: '3.1' (DEPRECATED)
+
+# services:
+#   wordpress:
+#     image: wordpress
+#     restart: always
+#     ports:
+#       - 8081:80
+#     environment:
+#       WORDPRESS_DB_HOST: db
+#       WORDPRESS_DB_USER: exampleuser
+#       WORDPRESS_DB_PASSWORD: examplepass
+#       WORDPRESS_DB_NAME: exampledb
+#     volumes:
+#       - wordpress:/var/www/html
+
+#   db:
+#     image: mysql:5.7
+#     restart: always
+#     environment:
+#       MYSQL_DATABASE: exampledb
+#       MYSQL_USER: exampleuser
+#       MYSQL_PASSWORD: examplepass
+#       MYSQL_RANDOM_ROOT_PASSWORD: Masaraki
+#     volumes:
+#       - db:/var/lib/mysql
+
+# volumes:
+#   wordpress:
+#   db:
+
